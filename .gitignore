@@ -1,0 +1,46 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
+
+# ===== 数据与模型权重 =====
+# 体积大 / 可重新生成，默认不提交
+data/
+datasets/
+outputs/
+results/
+*.ckpt
+*.pth
+*.onnx
+*.h5
+*.pkl
+
+# ===== 编辑器 / IDE =====
+.vscode/
+.idea/
+*.swp
+*~
+
+# ===== 操作系统 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== 密钥与本地配置（绝对不要提交）=====
+.env
+.env.*
+*.pem
+*.key
+secrets.json
