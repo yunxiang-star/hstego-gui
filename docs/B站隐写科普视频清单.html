@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B站「隐写 / 信息隐藏」视频清单 · 对标 TSIP 2024 隐写综述</title>
+<style>
+  :root{
+    --bg:#F7F6F2; --card:#FFFFFF; --line:#E4E2DB; --line2:#EFEEE9;
+    --t1:#2C2C2A; --t2:#5F5E5A; --t3:#8B8983;
+    --green:#3B6D11; --green-bg:#EAF3DE; --green-line:#C0DD97;
+    --amber:#854F0B; --amber-bg:#FAEEDA; --amber-line:#FAC775;
+    --gray-bg:#F1EFE8; --gray-line:#D3D1C7;
+    --blue:#185FA5; --blue-bg:#E6F1FB;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:48px 24px 80px;
+    background:var(--bg); color:var(--t1);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:14px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:940px;margin:0 auto}
+  header{margin-bottom:36px}
+  h1{font-size:24px;font-weight:500;margin:0 0 10px;letter-spacing:-.2px}
+  .sub{color:var(--t2);font-size:13px;margin:0}
+  .sub a{color:var(--blue);text-decoration:none}
+  .sub a:hover{text-decoration:underline}
+
+  .alert{
+    background:var(--amber-bg); border:1px solid var(--amber-line);
+    border-radius:12px; padding:16px 18px; margin:28px 0; font-size:13px; color:#633806;
+  }
+  .alert strong{font-weight:500;color:var(--amber)}
+
+  h2{
+    font-size:15px; font-weight:500; margin:40px 0 6px;
+    display:flex; align-items:baseline; gap:10px;
+  }
+  h2 .hint{font-size:12px;font-weight:400;color:var(--t3)}
+  h2 .num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:20px;height:20px;border-radius:6px;background:var(--t1);color:#fff;
+    font-size:11px;flex:none;transform:translateY(2px)
+  }
+
+  .item{
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:14px 16px; margin-top:10px; display:flex; gap:14px; align-items:flex-start;
+  }
+  .item:hover{border-color:#BDBCB6}
+  .item .body{flex:1;min-width:0}
+  .item .title{font-weight:500;font-size:14px;margin-bottom:3px;line-height:1.5}
+  .item .meta{font-size:12px;color:var(--t3);margin-bottom:2px}
+  .item .why{font-size:12.5px;color:var(--t2);line-height:1.6}
+  .item a{color:var(--blue);text-decoration:none;word-break:break-all}
+  .item a:hover{text-decoration:underline}
+  .tag{
+    flex:none;font-size:11.5px;padding:3px 9px;border-radius:999px;
+    border:1px solid var(--gray-line);background:var(--gray-bg);color:var(--t2);
+    white-space:nowrap;margin-top:2px
+  }
+  .tag.g{background:var(--green-bg);border-color:var(--green-line);color:var(--green)}
+  .tag.a{background:var(--amber-bg);border-color:var(--amber-line);color:var(--amber)}
+  .tag.b{background:var(--blue-bg);border-color:#B5D4F4;color:var(--blue)}
+
+  table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line2)}
+  th{font-weight:500;color:var(--t2);font-size:12px;background:#FBFAF7}
+  tr:last-child td{border-bottom:none}
+  .ok{color:var(--green);font-weight:500}
+  .some{color:var(--amber);font-weight:500}
+  .no{color:var(--t3);font-weight:500}
+
+  .route{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;margin-top:14px;font-size:13px;color:var(--t2)
+  }
+  .route p{margin:0 0 8px}
+  .route p:last-child{margin-bottom:0}
+  .route b{font-weight:500;color:var(--t1)}
+  footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--t3)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>B站「隐写 / 信息隐藏」视频清单</h1>
+  <p class="sub">对标：骆伟祺、谭舜泉《数字图像隐写和隐写分析综述》（APSIPA TSIP 2024）中文导读 ·
+  共 22 个视频，全部为 2026-09-20 实测可播放</p>
+</header>
+
+<div class="alert">
+  <strong>先说结论：</strong>B站的隐写科普基本停在「LSB 时代」——讲原理、讲 CTF 做题、讲数字水印。
+  而这篇综述的主体（最小失真框架、UNIWARD 代价函数、STC 编码、深度隐写分析、失配与对抗鲁棒）
+  在中文科普里<strong>几乎是空白</strong>。所以这批视频的用法是「建立直觉 + 对齐术语」，
+  不能当论文的精读替代品。
+</div>
+
+<h2><span class="num">1</span>真·科普 · 先建立直觉 <span class="hint">合计约 30 分钟</span></h2>
+
+<div class="item">
+  <span class="tag g">首推</span>
+  <div class="body">
+    <div class="title">隐写术鉴赏</div>
+    <div class="meta">Ele实验室 · 14:25 · 播放 36.9 万 · 2022-02</div>
+    <div class="why">把隐写术从古希腊一路讲到数字时代，视觉做得极好。看完你对「为什么要藏信息」会有画面感，是这一批里最适合零基础打底的一个。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1Su411X7vY" target="_blank">https://www.bilibili.com/video/BV1Su411X7vY</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag g">首推</span>
+  <div class="body">
+    <div class="title">这帧截图里隐藏了多少信息？视频数字水印如何改变你的生活？</div>
+    <div class="meta">柴知道 × 阿里 · 4:28 · 播放 19.4 万 · 2021-07</div>
+    <div class="why">专业科普团队出品，讲的是「视频隐形水印」这条和你最近的分支——信息隐藏的工业落地。对应综述里「数字水印」与鲁棒性那一块。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1mv411J77v" target="_blank">https://www.bilibili.com/video/BV1mv411J77v</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag a">攻防视角</span>
+  <div class="body">
+    <div class="title">从谍报通信到病毒免杀，全能的伪装艺术——隐写术</div>
+    <div class="meta">赛博保安_寒某某 · 3:55 · 播放 20.8 万 · 2025-11</div>
+    <div class="why">从安全从业者角度看隐写，讲了它在恶意样本绕过检测里的用法。补上了「隐写分析为什么必须存在」这个动机。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1w9kSBUEwP" target="_blank">https://www.bilibili.com/video/BV1w9kSBUEwP</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">经典</span>
+  <div class="body">
+    <div class="title">隐写术：把秘密藏在照片里</div>
+    <div class="meta">我是炬峰 · 4:45 · 播放 27.4 万 · 2020-10</div>
+    <div class="why">最短的一条路径，4 分半讲清「图片里怎么塞字」。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1dv411k76P" target="_blank">https://www.bilibili.com/video/BV1dv411k76P</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">国外经典</span>
+  <div class="body">
+    <div class="title">图像里的隐藏秘密：隐写术（Computerphile 中文配音）</div>
+    <div class="meta">英文白斑马 搬运 · 12:36 · 2026-05</div>
+    <div class="why">Computerphile 那一期是英文圈最经典的隐写入门，这个版本是中文配音。讲 LSB 的比特层面直觉，比大多数中文视频更扎实。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1MuLq6dEGo" target="_blank">https://www.bilibili.com/video/BV1MuLq6dEGo</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">概念辨析</span>
+  <div class="body">
+    <div class="title">密码学是你看得到密码但不知如何破解，隐写术是让不知情者看不出有额外信息</div>
+    <div class="meta">卢菁博士 · 3:14 · 播放 4607 · 2023-02</div>
+    <div class="why">3 分钟把「加密」和「隐写」的区别说透。综述开篇的核心动机就是这个，答辩时也常被问。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1Rs4y187zc" target="_blank">https://www.bilibili.com/video/BV1Rs4y187zc</a></div>
+  </div>
+</div>
+
+<h2><span class="num">2</span>动手做 LSB · 做 Demo 时对照 <span class="hint">你第一个可跑的东西就在这里</span></h2>
+
+<div class="item">
+  <span class="tag b">代码向</span>
+  <div class="body">
+    <div class="title">最低有效位 LSB 图像水印法</div>
+    <div class="meta">代码君CodeSama · 8:58 · 播放 1.26 万 · 2019-01</div>
+    <div class="why">直接上代码，讲 LSB 的嵌入与提取。你要做的 GUI 应用最小可用版本，原理就是这条。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1Ct411W7u7" target="_blank">https://www.bilibili.com/video/BV1Ct411W7u7</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag b">代码向</span>
+  <div class="body">
+    <div class="title">【Python 魔法】图片隐写术（Python + PIL 隐藏你想要传递的信息）</div>
+    <div class="meta">幽蓝伊梦 · 6:26 · 播放 1.38 万 · 2019-06</div>
+    <div class="why">跟着敲一遍就能跑出「嵌入→提取」闭环，适合当你 App 的第一版原型思路。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1k4411g7Bb" target="_blank">https://www.bilibili.com/video/BV1k4411g7Bb</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">原理讲述</span>
+  <div class="body">
+    <div class="title">图片隐写术，在事物表象的背后隐藏数据的艺术</div>
+    <div class="meta">一段往事一座城 · 3:01 · 播放 3490 · 2020-04</div>
+    <div class="why">用一个故事把像素级隐写的原理串起来，比纯讲参数好懂。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1iK4y1r74r" target="_blank">https://www.bilibili.com/video/BV1iK4y1r74r</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag a">双向实验</span>
+  <div class="body">
+    <div class="title">实践 3：LSB 隐写与隐写分析 ——《信息安全技术》第 8 次课</div>
+    <div class="meta">Sirius8912 · 1:21:08 · 播放 6353 · 2020-04</div>
+    <div class="why">少见的「嵌入 + 检测」双向实验课。综述第二章的隐写分析在这类课程实验里有最直观的落点。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1nC4y1x7wU" target="_blank">https://www.bilibili.com/video/BV1nC4y1x7wU</a></div>
+  </div>
+</div>
+
+<h2><span class="num">3</span>系统课程 · 当字典查，别打算看完 <span class="hint">总计 20+ 小时</span></h2>
+
+<div class="item">
+  <span class="tag g">含金量最高</span>
+  <div class="body">
+    <div class="title">【信息隐藏技术】南开大学 李朝晖教授</div>
+    <div class="meta">学研百宝箱 搬运 · 12:50:39 · 播放 1.13 万 · 2023-07</div>
+    <div class="why">国内信息隐藏领域正经的大学课程录像，是这个清单里唯一有学术分量的一份。不要线性看——需要查「嵌密容量」「失真函数」「评价指标」时按目录跳着看。李朝晖本人的论文你在查文献时大概率会遇到。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1fh4y1f7xm" target="_blank">https://www.bilibili.com/video/BV1fh4y1f7xm</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">零基础合集</span>
+  <div class="body">
+    <div class="title">【信息隐藏】隐写术零基础入门方法</div>
+    <div class="meta">高江子 · 7:51:32 · 播放 2.39 万 · 2021-09</div>
+    <div class="why">标题写「零基础」，内容密度偏工程师向（含工具与实战），适合当备查合集。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1hf4y1P7KY" target="_blank">https://www.bilibili.com/video/BV1hf4y1P7KY</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">单讲</span>
+  <div class="body">
+    <div class="title">信息隐藏（54 分钟）</div>
+    <div class="meta">夏江渚 · 54:11 · 播放 2251 · 2020-07</div>
+    <div class="why">一节完整的信息隐藏概览课，术语密度适中。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1Kv411z7j6" target="_blank">https://www.bilibili.com/video/BV1Kv411z7j6</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">组会汇报</span>
+  <div class="body">
+    <div class="title">数字水印与隐藏（研究生组会汇报）</div>
+    <div class="meta">1022练习生 · 49:05 · 播放 5626 · 2022-11</div>
+    <div class="why">研究生组会风格的汇报，用的词汇体系和你写论文时最接近，可以留意它的表达方式。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV19G4y1V7JY" target="_blank">https://www.bilibili.com/video/BV19G4y1V7JY</a></div>
+  </div>
+</div>
+
+<h2><span class="num">4</span>最贴近这篇综述的内容 · 稀缺但要抓住</h2>
+
+<div class="item">
+  <span class="tag a">最对口</span>
+  <div class="body">
+    <div class="title">基于深度学习的图像隐写综述</div>
+    <div class="meta">夏日的妤廿子 · 27:52 · 播放 2088 · 2023-10</div>
+    <div class="why">整个 B 站最接近你手上这篇文章的中文视频——同样按「手工代价 vs 深度学习代价」这条线梳理。虽然播放量只有两千，但对你来说是精准命中，建议优先看。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1mc411f7wA" target="_blank">https://www.bilibili.com/video/BV1mc411f7wA</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag a">最对口</span>
+  <div class="body">
+    <div class="title">ASDL-GAN：自动学习隐写失真</div>
+    <div class="meta">夏日的妤廿子 · 12:14 · 播放 262 · 2023-11</div>
+    <div class="why">同一个 UP 主的论文解读，正好对应综述里「基于 GAN / 对抗样本的隐写」那一节。这类内容在中文圈基本只有它在做。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1m94y157FV" target="_blank">https://www.bilibili.com/video/BV1m94y157FV</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag a">AIGC 相关</span>
+  <div class="body">
+    <div class="title">【AI 系列科普视频 06】信息隐藏 - 隐写 - 文本隐写</div>
+    <div class="meta">_Meilinger_ · 18:20 · 播放 852 · 2025-01</div>
+    <div class="why">唯一一条讲「文本隐写」的科普。综述的「未来方向」里把生成式模型当作突破口，文本隐写是理解这条路的最好入口。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1Ct6ZY3Ec4" target="_blank">https://www.bilibili.com/video/BV1Ct6ZY3Ec4</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">数字水印深化</span>
+  <div class="body">
+    <div class="title">把秘密写进像素里：深度解析视频「隐形水印」的编码逻辑</div>
+    <div class="meta">慢慢也熊飞 · 55:50 · 播放 280 · 2025-12</div>
+    <div class="why">55 分钟讲编码逻辑与鲁棒性，是这个清单里技术密度最高的一条自媒体内容。适合你搞懂「鲁棒性」到底在说什么。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1cvmKB6EdT" target="_blank">https://www.bilibili.com/video/BV1cvmKB6EdT</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">进展综述</span>
+  <div class="body">
+    <div class="title">数字水印技术新进展</div>
+    <div class="meta">我变秃了但还没有变强 · 16:15 · 播放 285 · 2025-05</div>
+    <div class="why">偏研究进展汇报，能让你知道这个方向最近在做什么。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1LxJzzqEFi" target="_blank">https://www.bilibili.com/video/BV1LxJzzqEFi</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">基础</span>
+  <div class="body">
+    <div class="title">数字水印 - 不可见水印</div>
+    <div class="meta">钢铁侠的小迷 · 28:24 · 播放 880 · 2024-04</div>
+    <div class="why">把不可见水印的几种实现讲了一遍，和综述里空域/变换域的思路对应。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1Rm411z77N" target="_blank">https://www.bilibili.com/video/BV1Rm411z77N</a></div>
+  </div>
+</div>
+
+<h2><span class="num">5</span>AI 生成藏字 · 偏操作，但和你的题目沾边</h2>
+
+<div class="item">
+  <span class="tag">AI 绘图</span>
+  <div class="body">
+    <div class="title">【AI 绘图】把文字和 logo 藏在照片里</div>
+    <div class="meta">村口郭大爷AITechLab · 14:39 · 播放 6252 · 2023-08</div>
+    <div class="why">用生成模型直接生成「看起来正常、但里面藏着指定文字」的图。这其实就是生成式隐写最朴素的形态，虽然作者自己没往学术上靠。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1oN411h7yx" target="_blank">https://www.bilibili.com/video/BV1oN411h7yx</a></div>
+  </div>
+</div>
+
+<div class="item">
+  <span class="tag">SD 教程</span>
+  <div class="body">
+    <div class="title">把文字藏在图片里！SD 一键生成隐藏文字效果</div>
+    <div class="meta">网络安全零基础教学 · 4:01 · 播放 6444 · 2024-11</div>
+    <div class="why">Stable Diffusion 控制光影藏字，纯操作向。看它能帮你判断「生成式隐写」和「视觉欺骗」的界限在哪。</div>
+    <div class="meta"><a href="https://www.bilibili.com/video/BV1hVSJYzEnH" target="_blank">https://www.bilibili.com/video/BV1hVSJYzEnH</a></div>
+  </div>
+</div>
+
+<h2><span class="num">6</span>覆盖度对照表 <span class="hint">哪些别在 B 站浪费时间找</span></h2>
+
+<table>
+  <tr><th>综述论文模块</th><th>B站中文内容</th><th>说明</th></tr>
+  <tr><td>LSB 类传统隐写</td><td class="ok">充足</td><td>多个 10 万+ 播放科普</td></tr>
+  <tr><td>最小失真代价函数（UNIWARD 等）</td><td class="no">空白</td><td>只有原论文和代码，中文科普没有</td></tr>
+  <tr><td>STC 编码</td><td class="no">空白</td><td>同上，你按「黑箱」用即可</td></tr>
+  <tr><td>深度学习隐写（GAN / 对抗样本 / RL）</td><td class="some">零星</td><td>只有「夏日的妤廿子」两个视频</td></tr>
+  <tr><td>隐写分析（手工特征 + CNN）</td><td class="some">零星</td><td>仅零星课程实验片段，无科普</td></tr>
+  <tr><td>失配场景 / 对抗鲁棒</td><td class="no">空白</td><td>论文第二、三章的核心，中文无对应</td></tr>
+  <tr><td>生成式 / 大模型隐写</td><td class="some">零星</td><td>仅文本隐写 1 条 + 若干 AI 绘图教程</td></tr>
+</table>
+
+<h2><span class="num">7</span>建议的观看路线</h2>
+<div class="route">
+  <p><b>第一步（今晚，30 分钟）：</b>《隐写术鉴赏》+《这帧截图里隐藏了多少信息？》。目标只有一个——建立「信息隐藏是干什么的」的画面感，不求记住任何术语。</p>
+  <p><b>第二步（明天，30 分钟）：</b>《基于深度学习的图像隐写综述》+《密码学 vs 隐写术》。这一步是把你手上的文章和视频里的说法对上号，术语对齐之后读综述会轻松很多。</p>
+  <p><b>第三步（动手时）：</b>LSB 那两条代码视频，跟着跑通一次嵌入 / 提取。你的 GUI 应用第一版就可以从这开始。</p>
+  <p><b>长期备查：</b>南开李朝晖那门课存着，遇到具体名词按目录跳。</p>
+  <p style="color:var(--t3);font-size:12.5px">其余视频都是「想看再看」，不需要按顺序刷完。</p>
+</div>
+
+<footer>
+  视频信息于 2026-09-20 通过 B 站接口实测校验，链接均有效。<br>
+  原文：骆伟祺、魏康康、李秋实、谭舜泉等《A Comprehensive Survey of Digital Image Steganography and Steganalysis》，APSIPA TSIP 2024。
+</footer>
+
+</div>
+</body>
+</html>

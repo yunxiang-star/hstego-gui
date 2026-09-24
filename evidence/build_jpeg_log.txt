@@ -1,0 +1,80 @@
+========================================================================
+hstego JPEG Toolbox 扩展构建（重编 libjpeg 路线）
+========================================================================
+hstego-src                   C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\hstego-src  [OK]
+libjpeg 源码                   C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\hstego-src\src\jpeg-9c-win\jpeg-9c-src  [OK]
+libjpeg 头文件                  C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\hstego-src\src\jpeg-9c-win\Include  [OK]
+Python include               C:\Users\ILLENIUM\.workbuddy\binaries\python\versions\3.13.12\include  [OK]
+Python libs(python313.lib)   C:\Users\ILLENIUM\.workbuddy\binaries\python\versions\3.13.12\libs  [OK]
+libjpeg 源文件: 46/46 齐备
+
+MSVC : C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231
+cl   : C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\bin\Hostx64\x64\cl.exe
+SDK  : 10.0.26100.0
+jconfig.h -> C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\hstego-src\jpegbuild\jconfig.h (1553 字节)
+
+--- 编译（47 个源文件，单次 cl 调用）---
+cwd: C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\hstego-src\jpegbuild
+exit=0  用时 3.1s
+（无 error / LINK 信息）
+
+[OK] 产出: C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\hstego-src\hstego_jpeg_toolbox_extension.so  (0.11 MB)
+
+========== 编译器完整输出 ==========
+jpeg_toolbox_extension.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\shared\basetsd.h(77): warning C4142: "INT32": ���͵������ض���
+C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\hstego-src\src\jpeg-9c-win\jpeg-9c-src\jmorecfg.h(216): note: �μ���INT32��������
+C:\Users\ILLENIUM\.workbuddy\binaries\python\versions\3.13.12\include\pyconfig.h(642): warning C4005: ��HAVE_STDDEF_H��: ���ض���
+C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\hstego-src\src\jpeg-9c-win\Include\jconfig.h(11): note: �μ���HAVE_STDDEF_H����ǰһ������
+jcapimin.c
+jcapistd.c
+jcarith.c
+jccoefct.c
+jccolor.c
+jcdctmgr.c
+jchuff.c
+jcinit.c
+jcmainct.c
+jcmarker.c
+jcmaster.c
+jcomapi.c
+jcparam.c
+jcprepct.c
+jcsample.c
+jctrans.c
+jdapimin.c
+jdapistd.c
+jdarith.c
+�������ɴ���...
+���ڱ���...
+jdatadst.c
+jdatasrc.c
+jdcoefct.c
+jdcolor.c
+jddctmgr.c
+jdhuff.c
+jdinput.c
+jdmainct.c
+jdmarker.c
+jdmaster.c
+jdmerge.c
+jdpostct.c
+jdsample.c
+jdtrans.c
+jerror.c
+jfdctflt.c
+jfdctfst.c
+jfdctint.c
+jidctflt.c
+jidctfst.c
+�������ɴ���...
+���ڱ���...
+jidctint.c
+jmemmgr.c
+jmemnobs.c
+jquant1.c
+jquant2.c
+jutils.c
+jaricom.c
+�������ɴ���...
+  ���ڴ����� jpeg_toolbox_extension.lib �Ͷ��� jpeg_toolbox_extension.exp

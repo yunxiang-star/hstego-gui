@@ -1,0 +1,39 @@
+{
+  // ── Python 解释器：指向工程内的 .venv ────────────────────────
+  // 换电脑或换了环境时，只需改这一行（或按 Ctrl+Shift+P → Python: Select Interpreter）
+  "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+
+  // 打开终端时自动激活 .venv，这样敲 python 就是工程内的解释器
+  "python.terminal.activateEnvironment": true,
+
+  // 让 Pylance 能在工程根目录找到同级的 hstegolib / hstegogui
+  "python.analysis.extraPaths": ["${workspaceFolder}"],
+  "python.analysis.autoSearchPaths": true,
+
+  // hstegogui.py 用了 `from tkinter import *`，这些告警会刷屏，关掉
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportWildcardImportFromLibrary": "none",
+    "reportMissingModuleSource": "none",
+    "reportUnusedImport": "none",
+    "reportUnusedVariable": "none"
+  },
+
+  // 保存时自动整理 import / 格式化（可选，不喜欢可删掉这段）
+  "[python]": {
+    "editor.formatOnSave": false,
+    "editor.rulers": [100]
+  },
+
+  // 工程里那些自动生成的目录，别在侧边栏碍眼
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.pytest_cache": true
+  },
+
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+
+  // 调试时不要单步进第三方库
+  "debugpy.debugJustMyCode": true
+}

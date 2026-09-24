@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>图像隐写工具 · 把内容藏进图片</title>
+<link rel="stylesheet" href="/ui/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">隐</span>
+      <div class="brand-text">
+        <h1>图像隐写工具</h1>
+        <p>把一份内容悄悄藏进图片里，画面上看不出来</p>
+      </div>
+    </div>
+    <div id="engineBadge" class="badge badge-muted">检查环境中…</div>
+  </div>
+</header>
+
+<div id="engineAlert" class="wrap" hidden>
+  <div class="alert alert-error">
+    <strong>隐写引擎没有就绪，暂时不能使用。</strong>
+    <p id="engineAlertText"></p>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ============================ 标签切换 ============================ -->
+  <div class="tabs" role="tablist">
+    <button class="tab is-active" data-tab="embed" role="tab">
+      <span class="tab-num">1</span>
+      <span class="tab-body">
+        <strong>把内容藏进图片</strong>
+        <small>选一张图 + 要藏的内容 + 口令</small>
+      </span>
+    </button>
+    <button class="tab" data-tab="extract" role="tab">
+      <span class="tab-num">2</span>
+      <span class="tab-body">
+        <strong>从图片里取出内容</strong>
+        <small>选载密图 + 当初的口令</small>
+      </span>
+    </button>
+  </div>
+
+  <!-- ============================ 面板 1：藏 ============================ -->
+  <section id="panel-embed" class="panel">
+
+    <div class="card">
+      <div class="step">
+        <div class="step-head"><span class="dot">1</span><h2>选一张图片当「载体」</h2></div>
+        <p class="hint">内容就藏在这张图里。图片越大、花纹越杂，能藏的东西越多。</p>
+
+        <div id="coverDrop" class="drop" tabindex="0">
+          <input type="file" id="coverInput" accept="image/*" hidden>
+          <div class="drop-empty">
+            <div class="drop-icon">🖼️</div>
+            <p><strong>点击选择图片</strong>，或把图片拖到这里</p>
+            <p class="drop-sub">支持 PNG / JPG / TIFF 等常见格式</p>
+          </div>
+          <div class="drop-filled" hidden>
+            <img id="coverPreview" alt="载体图预览">
+            <div class="drop-file">
+              <strong id="coverName">—</strong>
+              <span id="coverMeta">—</span>
+            </div>
+            <button type="button" class="linkbtn" id="coverReset">换一张</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-head"><span class="dot">2</span><h2>写清楚要藏什么</h2></div>
+        <p class="hint">可以是一段文字，也可以是一个文件。只有知道口令的人才能取出来。</p>
+
+        <div class="seg" id="payloadMode">
+          <button type="button" class="seg-item is-active" data-mode="text">输入一段文字</button>
+          <button type="button" class="seg-item" data-mode="file">选择一个文件</button>
+        </div>
+
+        <div id="payloadTextWrap">
+          <textarea id="payloadText" rows="4" placeholder="在这里输入要藏起来的内容，例如：这是一条只有你能看到的留言。"></textarea>
+          <div class="counter"><span id="payloadTextSize">0</span> 字节</div>
+        </div>
+
+        <div id="payloadFileWrap" hidden>
+          <label class="filepick">
+            <input type="file" id="payloadFile">
+            <span id="payloadFileLabel">点击选择要藏的文件</span>
+          </label>
+          <p class="hint hint-tight">提示：文本类文件（.txt）能被压缩，塞得更多；图片/压缩包本身已压缩，占地更大。</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-head"><span class="dot">3</span><h2>设一个口令</h2></div>
+        <p class="hint">口令决定内容藏在图片的哪些位置，也用来加密。<strong>忘了就取不回来。</strong></p>
+        <div class="pwd">
+          <input type="password" id="password" placeholder="想一个只有你知道的口令" autocomplete="off">
+          <button type="button" class="linkbtn" id="togglePwd">显示</button>
+        </div>
+      </div>
+
+      <div id="capacityBox" class="capacity" hidden>
+        <div class="capacity-row">
+          <span class="capacity-label">这张图最多能藏</span>
+          <span class="capacity-value" id="capMax">—</span>
+        </div>
+        <div class="capacity-row">
+          <span class="capacity-label">你的内容占</span>
+          <span class="capacity-value" id="capNeed">—</span>
+        </div>
+        <div class="gauge"><div class="gauge-fill" id="capGauge"></div></div>
+        <p class="capacity-note" id="capNote"></p>
+      </div>
+
+      <button type="button" class="cta" id="embedBtn" disabled>开始藏进图片</button>
+      <p class="cta-note" id="embedReadyNote">请先选好载体图片和要藏的内容</p>
+    </div>
+
+    <div id="embedProgress" class="card card-progress" hidden>
+      <div class="progress-head">
+        <span class="spinner"></span>
+        <strong id="embedStage">正在准备…</strong>
+        <span class="elapsed" id="embedElapsed">0 秒</span>
+      </div>
+      <div class="bar"><div class="bar-fill" id="embedBar"></div></div>
+      <p class="progress-sub" id="embedSub">单次嵌入大约需要 10–30 秒，请勿关闭页面。</p>
+      <details class="details">
+        <summary>运行记录</summary>
+        <ol class="loglist" id="embedLogs"></ol>
+      </details>
+    </div>
+
+    <div id="embedResult"></div>
+  </section>
+
+  <!-- ============================ 面板 2：取 ============================ -->
+  <section id="panel-extract" class="panel" hidden>
+
+    <div class="card">
+      <div class="step">
+        <div class="step-head"><span class="dot">1</span><h2>选那张藏了内容的图片</h2></div>
+        <p class="hint">请使用当初生成的那张原图。被聊天软件转发、重新压缩过的图片，内容可能已经被破坏。</p>
+
+        <div id="stegoDrop" class="drop" tabindex="0">
+          <input type="file" id="stegoInput" accept="image/*" hidden>
+          <div class="drop-empty">
+            <div class="drop-icon">🔍</div>
+            <p><strong>点击选择图片</strong>，或把图片拖到这里</p>
+            <p class="drop-sub">通常是文件名带 _stego 的那一张</p>
+          </div>
+          <div class="drop-filled" hidden>
+            <img id="stegoPreview" alt="载密图预览">
+            <div class="drop-file">
+              <strong id="stegoName">—</strong>
+              <span id="stegoMeta">—</span>
+            </div>
+            <button type="button" class="linkbtn" id="stegoReset">换一张</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-head"><span class="dot">2</span><h2>输入当初的口令</h2></div>
+        <p class="hint">必须和藏进去时用的口令完全一致，大小写、空格都算数。</p>
+        <div class="pwd">
+          <input type="password" id="password2" placeholder="输入口令" autocomplete="off">
+          <button type="button" class="linkbtn" id="togglePwd2">显示</button>
+        </div>
+      </div>
+
+      <button type="button" class="cta" id="extractBtn" disabled>开始取出来</button>
+      <p class="cta-note" id="extractReadyNote">请先选好图片并输入口令</p>
+    </div>
+
+    <div id="extractProgress" class="card card-progress" hidden>
+      <div class="progress-head">
+        <span class="spinner"></span>
+        <strong id="extractStage">正在准备…</strong>
+        <span class="elapsed" id="extractElapsed">0 秒</span>
+      </div>
+      <div class="bar"><div class="bar-fill" id="extractBar"></div></div>
+      <p class="progress-sub">正在读取图片中隐藏的内容，通常几秒内完成。</p>
+    </div>
+
+    <div id="extractResult"></div>
+  </section>
+
+  <!-- ============================ 使用说明 ============================ -->
+  <details class="card help">
+    <summary>第一次用？花 1 分钟看这里</summary>
+    <div class="help-grid">
+      <div class="help-item">
+        <h3>它是怎么工作的</h3>
+        <p>工具会在图片的像素里做<strong>极其细微</strong>的改动，把加密后的内容写进去。
+           单点最多只改 1 个灰度级，所以肉眼看不出区别，但程序能精确地读回来。</p>
+      </div>
+      <div class="help-item">
+        <h3>能藏多少内容</h3>
+        <p>取决于图片本身，而不是文件大小。同样 512×512 的两张图，容量可能差 3 倍多。
+           选好图片和内容后，界面会<strong>自动告诉你装不装得下</strong>。</p>
+      </div>
+      <div class="help-item">
+        <h3>口令丢了怎么办</h3>
+        <p>没办法。口令同时决定「藏在哪」和「怎么解密」，丢了口令连工具自己都取不出来。
+           请务必记牢，或存进密码管理器。</p>
+      </div>
+      <div class="help-item">
+        <h3>为什么偶尔要等更久</h3>
+        <p>JPG 图片存在约 25% 的概率一次藏不成功（上游算法的已知缺陷）。
+           工具会自动换参数重试，并在<strong>藏完立刻取回来核对一遍</strong>，只有核对通过才会给你结果。</p>
+      </div>
+    </div>
+    <p class="help-foot">
+      本工具仅用于学术研究与教学演示，请勿用于任何非法用途。
+      <a href="/docs">开发者接口文档</a>
+    </p>
+  </details>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    基于 UNIWARD + STC 最小失真隐写框架（hstego）· 每次嵌入均带往返自检
+  </div>
+</footer>
+
+<script src="/ui/app.js"></script>
+</body>
+</html>

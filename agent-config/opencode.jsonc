@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  // 本项目默认走 V4 Pro（写代码、读论文长上下文都够）
+  "model": "deepseek/deepseek-v4-pro",
+
+  // 权限：默认"先问"，避免它自动乱改你的文件
+  "permission": {
+    // 文件改动一律先问我
+    "edit": "ask",
+    // 命令默认先问我；只读类命令直接放行
+    "bash": {
+      "*": "ask",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "ls*": "allow",
+      "python --version": "allow"
+    },
+    // 允许联网查资料（读论文、查库文档）
+    "webfetch": "allow"
+  }
+}

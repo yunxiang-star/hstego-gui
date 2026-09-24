@@ -1,0 +1,76 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // 最常用：F5 直接弹出 HStego 图形界面
+      "name": "▶ 启动 GUI（图形界面）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/hstego.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      // 调试 GUI 时把 justMyCode 关掉，可以单步进 hstegogui / hstegolib
+      "name": "▶ 启动 GUI（可单步进库代码）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/hstego.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "CLI ▸ 查看图像容量",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/hstego.py",
+      "args": ["capacity", "testing/cover.png"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "CLI ▸ 嵌入（embed）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/hstego.py",
+      "args": [
+        "embed",
+        "testing/input-secret.txt",
+        "testing/cover.png",
+        "output/stego.png",
+        "MyP4ssw0rd101"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "CLI ▸ 提取（extract）",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/hstego.py",
+      "args": [
+        "extract",
+        "output/stego.png",
+        "output/extracted.txt",
+        "MyP4ssw0rd101"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      // 想调试任意脚本时用这个（先在编辑器里打开那个文件）
+      "name": "▶ 运行当前打开的文件",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    }
+  ]
+}

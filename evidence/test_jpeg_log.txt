@@ -1,0 +1,49 @@
+======================================================================
+JPEG Toolbox 扩展验证
+======================================================================
+
+[0] 扩展文件定位
+    hstego_jpeg_toolbox_extension          ['C:\\Users\\ILLENIUM\\WorkBuddy\\2026-09-20-17-02-48\\hstego-src\\hstego_jpeg_toolbox_extension.so']
+    hstego_stc_extension                   ['C:\\Users\\ILLENIUM\\WorkBuddy\\2026-09-20-17-02-48\\hstego-src\\hstego_stc_extension.so']
+
+[1] ctypes 直接加载 DLL
+    LOADED OK -> <CDLL 'C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\hstego-src\hstego_jpeg_toolbox_extension.so', handle 7ffc7b460000 at 0x22c645ebe00>
+    导出符号 read_file : <_FuncPtr object at 0x0000022C64655A50>
+    导出符号 write_file: <_FuncPtr object at 0x0000022C64655B20>
+
+[2] 生成测试载体
+    载体: C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\testdata_cover.jpg  (102089 bytes, 512x512)
+    消息: 96 bytes
+
+[3] 扩展读 DCT 系数（这是 JPEG Toolbox 存在的全部理由）
+    返回类型: <class 'dict'>   耗时 0.02s
+    keys: ['X_density', 'Y_density', 'ac_huff_tables', 'block_size', 'coef_arrays', 'comp_info', 'dc_huff_tables', 'density_unit', 'image_color_space', 'image_components', 'image_height', 'image_width', 'jpeg_color_space', 'jpeg_components', 'min_DCT_h_scaled_size', 'min_DCT_v_scaled_size', 'progressive_mode', 'quant_tables']
+    image_width/height: 512 / 512
+    image_components  : 3
+    progressive_mode  : 0
+    coef_arrays: 3 个通道
+    Y 通道 DCT 系数矩阵 shape = (64, 64, 8, 8)  (块行, 块列, 8, 8)
+    quant_tables: 2 张；Q[0] 左上角(直流)步长 = 3.0
+    Y 非零 AC 系数个数 = 125877
+    -> DCT 系数与量化表读取 [成功]
+
+[4] J-UNIWARD 藏取往返
+    import hstegolib [OK]（说明 JPEG + STC 两个扩展都已加载）
+    jpg_capacity = 852 字节（5% 上限后约 42 字节）
+    embed  [OK] 17.34s -> C:\Users\ILLENIUM\WorkBuddy\2026-09-20-17-02-48\testdata_stego.jpg (102085 bytes)
+    extract[OK] 5.69s
+    原消息 sha256: 711ebe1489d82503
+    取回  sha256: 711ebe1489d82503
+    往返一致: 是 ✓
+
+[5] 载体 vs 载密：DCT 域实际改了多少
+    Y 通道 64*4096 个系数中，被改了 234 个 (0.0893%)
+    改动幅度绝对值集合: [np.int32(1)]
+    像素域 PSNR = 64.56 dB
+
+[6] 负例：错误口令
+    警告：错误口令居然没报错（需复查）
+
+======================================================================
+结论：JPEG Toolbox 扩展 [已攻克]
+======================================================================

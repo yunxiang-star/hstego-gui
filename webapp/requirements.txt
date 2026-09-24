@@ -1,0 +1,19 @@
+# HStego Web 后端依赖
+# 安装： .venv\Scripts\python.exe -m pip install -r webapp\requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# --- 算法基座（已装在工程 .venv 里，列在这里是为了让依赖可复现）---
+numpy>=2.0
+scipy>=1.14
+numba>=0.61
+imageio>=2.37
+pillow>=11.0
+pycryptodome>=3.20
+
+# --- Web 层 ---
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.12
+
+# --- 测试 ---
+httpx>=0.28
+pytest>=8.0

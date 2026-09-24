@@ -1,46 +1,71 @@
-# ===== Python =====
+# ============================================================
+#  HStego 工作台与应用层
+# ============================================================
+
+# ---- setup.bat 生成的工作环境（可一键重建，不入库）----
+hstego-runtime/
+
+# ---- 上游 hstego 若被直接克隆到仓库内（正常走 hstego-runtime/）----
+/hstego/
+/hstegolib.py
+/hstegogui.py
+/hstego.py
+
+# ---- Python ----
 __pycache__/
 *.py[cod]
-*$py.class
 *.egg-info/
-.venv/
-venv/
-env/
-build/
-dist/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.venv/
+venv/
+build/
+dist/
 
-# ===== Jupyter =====
-.ipynb_checkpoints/
-
-# ===== 数据与模型权重 =====
-# 体积大 / 可重新生成，默认不提交
-data/
-datasets/
+# ---- 运行产物（嵌入/提取结果、上传件、作业目录）----
+output/
 outputs/
-results/
-*.ckpt
-*.pth
-*.onnx
-*.h5
-*.pkl
+_dbg/
+_selftest/
+_cli/
 
-# ===== 编辑器 / IDE =====
-.vscode/
+# ---- 编译中间产物 ----
+*.obj
+*.exp
+*.ilk
+*.pdb
+*.lib
+*.log
+
+# ---- 编辑器 / IDE ----
 .idea/
 *.swp
 *~
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
 
-# ===== 操作系统 =====
+# ---- 操作系统 ----
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# ===== 密钥与本地配置（绝对不要提交）=====
+# ---- Windows 快捷方式（指向本机绝对路径，无意义）----
+*.lnk
+*.url
+
+# ---- 密钥与本地配置（绝对不要提交）----
 .env
 .env.*
+secrets.json
 *.pem
 *.key
-secrets.json
+
+# ---- 注意：以下两个文件是刻意保留入库的 ----
+# runtime/*.so 是 C 扩展的编译产物，但也是运行所必需的。
+# 上游仓库不跟踪它们；本仓库刻意带上（170 KB），这样换机器克隆后无需重新编译。
+# 重编译会很痛苦的原因见 docs/02_JPEG_Toolbox攻坚报告.md。
+# !runtime/hstego_stc_extension.so
+# !runtime/hstego_jpeg_toolbox_extension.so
