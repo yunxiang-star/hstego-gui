@@ -22,6 +22,24 @@ agent_created: true
 - 现象是：`embed()` 明明返回成功，但取不回消息 / 输出 0 字节文件
 - 要报"藏得有多安全"（PSNR / SSIM / 差分），而不是只说"藏好了"
 
+## API 速查（2026-09-24 照源码核对，别再记错）
+
+```python
+hstegolib.S_UNIWARD()   # 空间域；hstegolib.J_UNIWARD() 压缩域
+
+.embed(input_img_path, msg_file_path, password, output_img_path)
+                  ↑ 载体在前，消息在后，口令第三，输出最后
+.extract(stego_img_path, password, output_msg_path)
+
+# 容量是【模块级函数】，不是类的方法 —— 写成 s.capacity() 会 AttributeError
+hstegolib.spatial_capacity(img_array)   # 空间域
+hstegolib.jpg_capacity(jpg_path)        # 压缩域
+hstegolib.spatial_channel_capacity(channel) / jpg_channel_capacity(coef_array)  # 单通道
+```
+
+另：`S_UNIWARD` / `J_UNIWARD` 上**只有** `cost_fn`、`embed`、`extract`
+（`J_UNIWARD` 多一个 `cost_polarization`）。**没有** `capacity` 这类方法。
+
 ## 四条硬规则（都由实测缺陷推出，别改）
 
 ### 1. 必须有「嵌入后往返自检」，且判据不能是 try/except
@@ -164,6 +182,8 @@ run-test.bat                   :: 冒烟：health/容量口径/双域往返/413/
 
 | 现象 | 真因 | 解法 |
 | --- | --- | --- |
+| `AttributeError: 'S_UNIWARD' object has no attribute 'capacity'` | 容量函数是**模块级**的 `spatial_capacity()` / `jpg_capacity()`，不是类方法 | 见上面「API 速查」 |
+| `PIL.UnidentifiedImageError: cannot identify image file 'msg.txt'` | `embed()` 参数顺序是**载体在前**：`(input_img_path, msg_file_path, password, output_img_path)`，写反了会把消息文件当图片打开 | 同上 |
 | 服务跑一阵后 `/health` 突然 **500**，堆栈指到 `sitecustomize.py` 的 `_safe_path_unlink` / `_check_bulk_delete_guard` | WorkBuddy 沙箱把删除保护 shim 塞进了 `PYTHONPATH`；累计删除量触发 bulk guard，`Path.unlink` 直接抛 `SystemExit(1)`（`/health` 里正好有一句 `probe.unlink()`） | 启动服务时清空：`PYTHONPATH= python -m backend ...`。**用户在自己终端跑 `run-server.bat` 不受影响**，只有从被沙箱包裹的 shell 里拉起的进程会中招 |
 | 空状态里「点击选择图片」和已选文件框**同时显示** | 类选择器 `.drop-filled{display:flex}` 的优先级高于 UA 的 `[hidden]{display:none}`，`hidden` 属性失效 | 全局加 `[hidden]{display:none !important;}`。**任何用 `hidden` 属性切换显示的元素，其类选择器都不要设 `display`** |
 | 结果区域一片空白，控制台又没报错 | 回调挂在 `opts` 上却写成从 `opts.ui` 取 → `ui.onDone is not a function`，异常被事件回调吞掉 | 用 CDP 监听 `Runtime.exceptionThrown`；统一约定「回调放 opts、元素放 opts.ui」 |

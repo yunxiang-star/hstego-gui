@@ -156,6 +156,7 @@ JPEG 域失败后换编码质量重试（`q95 → q92 → q88 → 换载体`）�
 | [`docs/01_一个月实施计划.md`](docs/01_一个月实施计划.md) | 完整的一个月路线图：阶段划分、论文页面级阅读表、术语表、评价指标、风险 |
 | [`docs/02_JPEG_Toolbox攻坚报告.md`](docs/02_JPEG_Toolbox攻坚报告.md) | 为什么 `setup.py` 编不过、`LNK2005` 的真因、手工编译路线的每一步 |
 | [`docs/03_J-UNIWARD提取可靠性缺陷报告.md`](docs/03_J-UNIWARD提取可靠性缺陷报告.md) | 六步排除法定位静默失败，失败环节精确到 32 字节头部 |
+| [`docs/04_hstegolib_API速查.md`](docs/04_hstegolib_API速查.md) | 引擎类、`embed/extract` 参数顺序、容量函数、最小可运行示例 |
 | [`notes/经验_hstego原生扩展编译.md`](notes/经验_hstego原生扩展编译.md) | 编译侧 + 应用侧全部铁律（可直接照做） |
 | [`notes/经验_hstego应用层封装.md`](notes/经验_hstego应用层封装.md) | 封装成 Web 服务的四条硬规则、前端字段清单、界面审美取舍、全部踩坑表 |
 | [`webapp/README.md`](webapp/README.md) | API 契约、SSE 事件、错误语义、环境变量、验证记录 |
