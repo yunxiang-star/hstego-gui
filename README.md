@@ -212,4 +212,15 @@ JPEG 域失败后换编码质量重试（`q95 → q92 → q88 → 换载体`）�
 
 ---
 
+## 十一、开源许可证
+
+本仓库以 **MIT License** 授权，见 [`LICENSE`](LICENSE)。你可以自由使用、修改、分发，
+包括商业用途，只需保留版权声明。
+
+上游 `hstego` 同为 MIT，其版权声明（Copyright (c) 2020 Daniel Lerch）与
+`runtime/*.so` 等编译产物的来源说明，统一收录在
+[`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md)。
+
+---
+
 *工程搭建 2026-09-21 — 2026-09-24*
